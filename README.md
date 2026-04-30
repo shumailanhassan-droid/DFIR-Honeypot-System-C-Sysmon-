@@ -1,5 +1,3 @@
-# DFIR-Honeypot-System-C-Sysmon-
-A defensive deception tool that creates **decoy files and registry artifacts** to detect unauthorized access and provide **real-time alerts with Sysmon attribution**.
 #  DFIR Honeypot System (C++ + Sysmon)
 
 A defensive deception tool that creates **decoy files and registry artifacts** to detect unauthorized access and provide **real-time alerts with Sysmon attribution**.
@@ -8,30 +6,30 @@ A defensive deception tool that creates **decoy files and registry artifacts** t
 
 ##  Features
 
--  **File Honeypot Monitoring**
+  **File Honeypot Monitoring**
   - Detects file creation, modification, and deletion
   - Targets sensitive decoy files:
-    - `passwords.txt`
-    - `bank_info.txt`
-    - `employee_records.txt`
+     `passwords.txt`
+     `bank_info.txt`
+     `employee_records.txt`
 
--  **Registry Honeypot**
+  **Registry Honeypot**
   - Monitors:
     ```
     HKCU\Software\CorpSecurity\VPN_Backup
     ```
   - Detects unauthorized registry modifications
 
--  **Real-Time Alerts**
+  **Real-Time Alerts**
   - Console alerts
   - Popup alerts (Windows MessageBox)
 
-- **Sysmon Integration**
+ **Sysmon Integration**
   - Event ID 1 → Process creation (WHO did it)
   - Event ID 11 → File activity
   - Event ID 13 → Registry modification
 
--  **Logging**
+  **Logging**
   - All events saved to `log.txt`
   - Timestamped for forensic use
 
@@ -63,7 +61,9 @@ A defensive deception tool that creates **decoy files and registry artifacts** t
 ##  Setup Instructions
 
 ### 1. Install Sysmon
-Download and install Sysmon from Microsoft: sysmon -i config.xml
+Download and install Sysmon from Microsoft: 
+
+sysmon -i config.xml
 
 ---
 
@@ -88,76 +88,111 @@ Use this configuration:
   </EventFiltering>
 </Sysmon>
 
-**Then reload the config: **
+```
+**Then reload the config:** 
+
 sysmon -c config.xml
+
 ---
 
-**### 3. Compile the Program**
+### 3. Compile the Program 
 ---
 
-**### 4. Run the Program**
+### 4. Run the Program
+
 You should see:
+
 DFIR Honeypot Active - Monitoring...
+
 Registry monitoring active...
+
 ---
 
-**Test the HoneyPot:**
+##  Test the Honeypot
 
-File Attack Simulation
+### 1. File Attack Simulation
 Open and modify a decoy file:
 notepad DecoyFolder\passwords.txt
 
-Expected result:
--Console alert
--Popup alert
--Sysmon attribution (process info)
+**Expected Results:** 
 
-Registry Attack Simulation
+- Console alert
+
+- Popup alert
+
+- Sysmon attribution (process info)
+
+### 2. Registry Attack Simulation
 Run in Powershell (admin):
+```
 Set-ItemProperty -Path "HKCU:\Software\CorpSecurity\VPN_Backup" -Name "AdminBackupToken" -Value "ATTACK"
+```
 
-Expected result:
--Registry alert
--Sysmon Event ID 13 (who modified it)
+ **Expected Results:**
 
-Remote Attack (Kali Linux)
+- Registry alert
+
+- Sysmon Event ID 13 (who modified it)
+
+### 3. Remote Attack (Kali Linus)
+
 From Kali via SSH:
-echo "hacked" >> Locatoin of the program/DecoyFolder/passwords.txt
----
 
-Example Output
+```
+echo "hacked" >> Locatoin of the program/DecoyFolder/passwords.txt
+```
+
+**Example Output:**
+
 [ALERT] FILE DECOY TRIGGERED | MODIFIED | File: passwords.txt | Process: Notepad.exe
 
 Sysmon Attribution:
+
 Process Create:
+
 Image: powershell.exe
+
 User: XXXXXX
+
 
 [ALERT] REGISTRY HONEYPOT TRIGGERED!
 
 Key: HKCU\Software\CorpSecurity\VPN_Backup
 
 Sysmon Details:
+
 EventType: SetValue
+
 Image: powershell.exe
+
 User: XXXXX
+
 ---
 
-What This Project Demonstrates
--Digital Forensics & Incident Response (DFIR)
--Windows API (C++)
--Real-time system monitoring
--Sysmon log correlation
--Threat detection via deception techniques
+##  What This Project Demonstrates 
+
+- Digital Forensics & Incident Response (DFIR)
+
+- Windows API (C++)
+
+- Real-time system monitoring
+
+- Sysmon log correlation
+
+- Threat detection via deception techniques
+
 ---
 
-Limitations
--File read-only access detection is limited
--Sysmon delay may cause slight lag in attribution
--Requires proper Sysmon configuration
+##  Limitations
+- File read-only access detection is limited
 
-Author
+- Sysmon delay may cause slight lag in attribution
+
+- Requires proper Sysmon configuration
+
+##  Author
 Shumaila Hassan
-Digital Forensics Student
 
-Screenshots
+-Digital Forensics Student
+
+##  Screenshots
