@@ -88,16 +88,16 @@ Use this configuration:
   </EventFiltering>
 </Sysmon>
 
-Then reload the config:
+**Then reload the config: **
 sysmon -c config.xml
 
-### 3. Compile the Program
-### 4. Run the Program
+**### 3. Compile the Program**
+**### 4. Run the Program**
 You should see:
 DFIR Honeypot Active - Monitoring...
 Registry monitoring active...
 
-Testing the HoneyPot:
+**Testing the HoneyPot:**
 
 File Attack Simulation
 Open and modify a decoy file:
