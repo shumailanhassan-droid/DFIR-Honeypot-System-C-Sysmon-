@@ -97,19 +97,31 @@ sysmon -c config.xml
 ```
 ---
 
-### 3. Compile the Program 
----
+### 3. Compile the Program and Run the Program
 
-### 4. Run the Program
+- Build Solution and Start
 
 You should see:
 
-DFIR Honeypot Active - Monitoring...
+- In Windows Console
 
-Registry monitoring active...
 
 <img width="392" height="177" alt="image" src="https://github.com/user-attachments/assets/1aa45f45-d2cc-4a1e-bbee-1b74ceb5bd35" />
 
+
+---
+
+
+- Decoy directory "Important" with decoy files in Users/Public/CorpData: 
+
+
+<img width="937" height="358" alt="image" src="https://github.com/user-attachments/assets/a9038884-a8b6-4ff5-8911-b70d2a45dcfc" />
+
+
+
+
+
+- log.txt (in the same folder as your .cpp)
 
 ---
 
