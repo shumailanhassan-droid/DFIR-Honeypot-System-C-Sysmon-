@@ -1,4 +1,4 @@
-#  DFIR Honeypot System (C++ + Sysmon)
+#  DFIR Honeypot System (C++ & Sysmon)
 
 A defensive deception tool that creates **decoy files and registry artifacts** to detect unauthorized access and provide **real-time alerts with Sysmon attribution**.
 
@@ -108,9 +108,12 @@ DFIR Honeypot Active - Monitoring...
 
 Registry monitoring active...
 
+<img width="392" height="177" alt="image" src="https://github.com/user-attachments/assets/1aa45f45-d2cc-4a1e-bbee-1b74ceb5bd35" />
+
+
 ---
 
-##  Test the Honeypot
+##  Test the Honeypot 
 
 ### 1. File Attack Simulation
 Open and modify a decoy file:
@@ -118,11 +121,15 @@ notepad DecoyFolder\passwords.txt
 
 **Expected Results:** 
 
-- Console alert
+- Console alert/ Sysmon attribution (process info)
+
+   <img width="1083" height="592" alt="image" src="https://github.com/user-attachments/assets/47f57532-8495-4bdc-bd77-65edc3c9d271" />
+
 
 - Popup alert
 
-- Sysmon attribution (process info)
+  <img width="303" height="213" alt="image" src="https://github.com/user-attachments/assets/2a7bac53-8810-4684-816c-5f0d129fc725" />
+
 
 ### 2. Registry Attack Simulation
 Run in Powershell (admin):
@@ -132,9 +139,15 @@ Set-ItemProperty -Path "HKCU:\Software\CorpSecurity\VPN_Backup" -Name "AdminBack
 
  **Expected Results:**
 
-- Registry alert
+- Console alert/ Sysmon Event ID 13 (who modified it)
 
-- Sysmon Event ID 13 (who modified it)
+<img width="1026" height="310" alt="image" src="https://github.com/user-attachments/assets/26739281-cf36-4937-ab0e-522c1c19bcd4" />
+
+
+- Popup alert
+
+  <img width="308" height="193" alt="image" src="https://github.com/user-attachments/assets/045f422a-bacd-4572-99fc-f64ae51e60a8" />
+
 
 ### 3. Remote Attack (Kali Linus)
 
@@ -197,4 +210,4 @@ Shumaila Hassan
 
 -Digital Forensics Student
 
-##  Screenshots
+
