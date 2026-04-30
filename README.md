@@ -99,7 +99,7 @@ sysmon -c config.xml
 
 ### 3. Compile the Program and Run the Program
 
-- Build Solution and Start
+- Build Solution and Run Final Project For Defense.exe
 
 You should see:
 
