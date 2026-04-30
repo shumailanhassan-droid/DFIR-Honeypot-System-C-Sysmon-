@@ -37,7 +37,7 @@ A defensive deception tool that creates **decoy files and registry artifacts** t
 
 ---
 
-## 🧱 Architecture
+##  Architecture
       ┌──────────────────────┐
       │  Attacker Activity   │
       └─────────┬────────────┘
@@ -56,3 +56,101 @@ A defensive deception tool that creates **decoy files and registry artifacts** t
     ┌───────────▼────────────┐
     │ Alerts + Logging       │
     └────────────────────────┘
+
+
+---
+
+##  Setup Instructions
+
+### 1. Install Sysmon
+Download and install Sysmon from Microsoft: sysmon -i config.xml
+
+---
+
+### 2. Sysmon Configuration
+
+Use this configuration:
+
+```xml
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+
+    <ProcessCreate onmatch="include" />
+
+    <FileCreate onmatch="include">
+      <TargetFilename condition="contains">DecoyFolder</TargetFilename>
+    </FileCreate>
+
+    <RegistryEvent onmatch="include">
+      <TargetObject condition="contains">CorpSecurity</TargetObject>
+    </RegistryEvent>
+
+  </EventFiltering>
+</Sysmon>
+
+Then reload the config:
+sysmon -c config.xml
+
+### 3. Compile the Program
+### 4. Run the Program
+You should see:
+DFIR Honeypot Active - Monitoring...
+Registry monitoring active...
+
+Testing the HoneyPot:
+
+File Attack Simulation
+Open and modify a decoy file:
+notepad DecoyFolder\passwords.txt
+
+Expected result:
+-Console alert
+-Popup alert
+-Sysmon attribution (process info)
+
+Registry Attack Simulation
+Run in Powershell (admin):
+Set-ItemProperty -Path "HKCU:\Software\CorpSecurity\VPN_Backup" -Name "AdminBackupToken" -Value "ATTACK"
+
+Expected result:
+-Registry alert
+-Sysmon Event ID 13 (who modified it)
+
+Remote Attack (Kali Linux)
+From Kali via SSH:
+echo "hacked" >> Locatoin of the program/DecoyFolder/passwords.txt
+
+Example Output
+[ALERT] FILE DECOY TRIGGERED | MODIFIED | File: passwords.txt | Process: Notepad.exe
+
+Sysmon Attribution:
+Process Create:
+Image: powershell.exe
+User: XXXXXX
+
+[ALERT] REGISTRY HONEYPOT TRIGGERED!
+
+Key: HKCU\Software\CorpSecurity\VPN_Backup
+
+Sysmon Details:
+EventType: SetValue
+Image: powershell.exe
+User: XXXXX
+
+What This Project Demonstrates
+-Digital Forensics & Incident Response (DFIR)
+-Windows API (C++)
+-Real-time system monitoring
+-Sysmon log correlation
+-Threat detection via deception techniques
+
+Limitations
+-File read-only access detection is limited
+-Sysmon delay may cause slight lag in attribution
+-Requires proper Sysmon configuration
+
+Author
+Shumaila Hassan
+Digital Forensics Student
+
+Screenshots
