@@ -11,11 +11,15 @@
 
 using namespace std;
 
+// 🔥 REALISTIC BASE PATH
+string basePath = "C:\\Users\\Public\\Documents\\CorpData\\";
+string decoyPath = basePath + "Important\\";
+
 // ---------------- DECOY FILES ----------------
 vector<string> decoyFiles = {
-    "Important\\passwords.txt",
-    "Important\\bank_info.txt",
-    "Important\\employee_records.txt"
+    decoyPath + "passwords.txt",
+    decoyPath + "bank_info.txt",
+    decoyPath + "employee_records.txt"
 };
 
 // ---------------- TIME ----------------
@@ -40,7 +44,8 @@ void triggerAlert(const string& message) {
 
 // ---------------- DIRECTORY ----------------
 void createDirectory() {
-    CreateDirectoryA("Important", NULL);
+    CreateDirectoryA(basePath.c_str(), NULL);
+    CreateDirectoryA(decoyPath.c_str(), NULL);
 }
 
 // ---------------- DECOY FILES ----------------
@@ -80,9 +85,7 @@ string getForegroundProcess() {
     return "UNKNOWN_PROCESS";
 }
 
-// 🔥 FIXED SYS MON FILE EVENT (REAL ATTRIBUTION)
-// 🔥 FIXED SYS MON PROCESS ATTRIBUTION (RELIABLE)
-
+// ---------------- SYS MON PROCESS ----------------
 string getSysmonProcessEvent() {
 
     string cmd =
@@ -108,7 +111,7 @@ string getSysmonProcessEvent() {
     return output;
 }
 
-// ---------------- SYS MON REGISTRY EVENTS (UNCHANGED) ----------------
+// ---------------- SYS MON REGISTRY ----------------
 string getSysmonRegistryEvent() {
 
     FILE* pipe = _popen(
@@ -135,7 +138,7 @@ string getSysmonRegistryEvent() {
     return output;
 }
 
-// ---------------- REGISTRY WATCHER (UNCHANGED) ----------------
+// ---------------- REGISTRY WATCHER ----------------
 DWORD WINAPI watchRegistry(LPVOID lpParam) {
 
     HKEY hKey;
@@ -165,7 +168,7 @@ DWORD WINAPI watchRegistry(LPVOID lpParam) {
 
         if (result == ERROR_SUCCESS) {
 
-            Sleep(1000); // allow Sysmon to log
+            Sleep(1000);
 
             string sysmon = getSysmonRegistryEvent();
 
@@ -179,6 +182,7 @@ DWORD WINAPI watchRegistry(LPVOID lpParam) {
             triggerAlert("Registry Honeypot Triggered!");
         }
     }
+
     RegCloseKey(hKey);
     return 0;
 }
@@ -219,7 +223,7 @@ int main() {
     CreateThread(NULL, 0, watchRegistry, NULL, 0, NULL);
 
     HANDLE hDir = CreateFileA(
-        "Important",
+        decoyPath.c_str(),
         FILE_LIST_DIRECTORY,
         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
         NULL,
@@ -264,8 +268,7 @@ int main() {
 
             string process = getForegroundProcess();
 
-
-            Sleep(750); // 🔥 give Sysmon time to write event
+            Sleep(750);
 
             string sysmon = getSysmonProcessEvent();
 
@@ -277,8 +280,9 @@ int main() {
             logEvent(baseLog);
 
             bool isDecoy = false;
+
             for (auto& d : decoyFiles) {
-                if (d == "Important\\" + fileStr) {
+                if (d.find(fileStr) != string::npos) {
                     isDecoy = true;
                     break;
                 }
@@ -300,4 +304,3 @@ int main() {
 
     return 0;
 }
-
