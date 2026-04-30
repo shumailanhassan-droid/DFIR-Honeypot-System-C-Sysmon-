@@ -63,8 +63,9 @@ A defensive deception tool that creates **decoy files and registry artifacts** t
 ### 1. Install Sysmon
 Download and install Sysmon from Microsoft: 
 
+```
 sysmon -i config.xml
-
+```
 ---
 
 ### 2. Sysmon Configuration
@@ -91,8 +92,9 @@ Use this configuration:
 ```
 **Then reload the config:** 
 
+```
 sysmon -c config.xml
-
+```
 ---
 
 ### 3. Compile the Program 
