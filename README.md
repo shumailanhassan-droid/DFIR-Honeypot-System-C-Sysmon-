@@ -90,14 +90,18 @@ Use this configuration:
 
 **Then reload the config: **
 sysmon -c config.xml
+---
 
 **### 3. Compile the Program**
+---
+
 **### 4. Run the Program**
 You should see:
 DFIR Honeypot Active - Monitoring...
 Registry monitoring active...
+---
 
-**Testing the HoneyPot:**
+**Test the HoneyPot:**
 
 File Attack Simulation
 Open and modify a decoy file:
@@ -119,6 +123,7 @@ Expected result:
 Remote Attack (Kali Linux)
 From Kali via SSH:
 echo "hacked" >> Locatoin of the program/DecoyFolder/passwords.txt
+---
 
 Example Output
 [ALERT] FILE DECOY TRIGGERED | MODIFIED | File: passwords.txt | Process: Notepad.exe
@@ -136,6 +141,7 @@ Sysmon Details:
 EventType: SetValue
 Image: powershell.exe
 User: XXXXX
+---
 
 What This Project Demonstrates
 -Digital Forensics & Incident Response (DFIR)
@@ -143,6 +149,7 @@ What This Project Demonstrates
 -Real-time system monitoring
 -Sysmon log correlation
 -Threat detection via deception techniques
+---
 
 Limitations
 -File read-only access detection is limited
